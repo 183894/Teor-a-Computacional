@@ -5,6 +5,20 @@ regex_fecha = r'\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}'
 regex_usuario = r'USER=(\w+)'
 regex_evento = r'EVENT=(LOGIN_OK|LOGIN_FAIL|ACCESS)'
 
+def validar_ip(ip):
+    partes = ip.split(".")
+
+    if len(partes) != 4:
+        return False
+
+    for parte in partes:
+        numero = int(parte)
+
+        if numero < 0 or numero > 255:
+            return False
+
+    return True
+
 registros_validos = []
 
 with open("registros.txt", "r", encoding="utf-8") as archivo:
@@ -22,7 +36,7 @@ for registro in registros:
     usuario = re.search(regex_usuario, registro)
     evento = re.search(regex_evento, registro)
 
-    if ip and fecha and usuario and evento:
+    if ip and fecha and usuario and evento and validar_ip(ip.group(1)):
 
         datos = {
             "ip": ip.group(1),
