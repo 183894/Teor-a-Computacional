@@ -1,4 +1,5 @@
 import re
+from automata_pila import validar_sesiones
 #Expresiones regulares
 regex_ip = r'IP=(\d{1,3}(?:\.\d{1,3}){3})'
 regex_fecha = r'\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}'
@@ -215,3 +216,20 @@ for ip, eventos in eventos_por_ip.items():
         #mostrar que no se detecto la secuencia de fallos
         print("Sin patrones sospechosos en la IP:", ip)
         print("Estado final:", estado_actual)
+        
+
+# Reconocimiento de sesiones mediante el Autómata de Pila
+print("\n========== ANALISIS DEL AUTOMATA DE PILA ==========")
+#recorrer cada ip y validar que sus sesiones esten bien formadas
+for ip, eventos in eventos_por_ip.items():
+    #el automata de pila revisa LOGIN_OK/LOGOUT y SU/EXIT con una pila
+    aceptada, motivo, traza = validar_sesiones(eventos)
+    if aceptada:
+        #pila vacia al terminar: todas las sesiones se cerraron bien
+        print("Sesiones bien formadas en la IP:", ip)
+        print("Pila final: vacía")
+    else:
+        #mostrar alerta con el motivo exacto del rechazo
+        print("ALERTA: Sesión inválida")
+        print("Direccion IP:", ip)
+        print("Motivo:", motivo)
