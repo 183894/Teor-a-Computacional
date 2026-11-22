@@ -1,5 +1,6 @@
 import re
 from automata_pila import validar_sesiones
+from grafo import GrafoLogs
 import sys
 #Expresiones regulares
 regex_ip = r'IP=(\d{1,3}(?:\.\d{1,3}){3})'
@@ -243,3 +244,22 @@ for ip, eventos in eventos_por_ip.items():
         print("ALERTA: Sesión inválida")
         print("Direccion IP:", ip)
         print("Motivo:", motivo)
+
+# Analisis mediante grafos
+print("\n========== ANALISIS DEL GRAFO ==========")
+
+# crear el grafo
+grafo = GrafoLogs()
+
+# construir el grafo utilizando los registros validos
+grafo.construir_desde_registros(registros_validos)
+
+# mostrar la lista de adyacencia
+grafo.mostrar_lista_adyacencia()
+
+# mostrar la actividad registrada por cada IP
+grafo.mostrar_actividad_ips()
+
+# realizar BFS desde cada IP encontrada
+for ip in eventos_por_ip:
+    grafo.mostrar_bfs(ip)
