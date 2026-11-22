@@ -1,5 +1,6 @@
 import re
 from automata_pila import validar_sesiones
+import sys
 #Expresiones regulares
 regex_ip = r'IP=(\d{1,3}(?:\.\d{1,3}){3})'
 regex_fecha = r'\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}'
@@ -23,8 +24,17 @@ def validar_ip(ip):
 registros_validos = []#lista donde se alamcenan los registros que sean validos
 
 #abir el archivo que contiene los registros
-with open("registros.txt", "r", encoding="utf-8") as archivo:
-    registros = archivo.readlines()#para leer todas las lineas del archivo
+#el archivo se puede indicar al ejecutar: python main.py archivo.txt (por defecto registros.txt)
+nombre_archivo = sys.argv[1] if len(sys.argv) > 1 else "registros.txt"
+try:
+    with open(nombre_archivo, "r", encoding="utf-8") as archivo:
+        registros = archivo.readlines()#para leer todas las lineas del archivo
+except FileNotFoundError:
+    print("ERROR: no se encontró el archivo", nombre_archivo)
+    sys.exit(1)
+except UnicodeDecodeError:
+    print("ERROR: el archivo no es de texto (parece un archivo binario)")
+    sys.exit(1)
 
 print("========== REGISTROS ANALIZADOS ==========")
 #recorrer cada registro del archivo para comprobar su formato
