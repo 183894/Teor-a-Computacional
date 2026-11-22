@@ -26,7 +26,8 @@ def ejecutar(lineas, nombre="caso.txt", binario=False, existe=True):
                 open(ruta, "w", encoding="utf-8").write("\n".join(lineas) + "\n")
         t0 = time.time()
         p = subprocess.run([sys.executable, MAIN, ruta], capture_output=True, text=True,
-                           encoding="utf-8", errors="replace", cwd=AQUI, timeout=120)
+                           encoding="utf-8", errors="replace", cwd=AQUI, timeout=120,
+                           env=dict(os.environ, PYTHONIOENCODING="utf-8", PYTHONUTF8="1"))
         return p.stdout + p.stderr, time.time() - t0
 
 
