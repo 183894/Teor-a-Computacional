@@ -3,10 +3,10 @@ from automata_pila import validar_sesiones
 from grafo import GrafoLogs
 import sys
 #Expresiones regulares
-regex_ip = r'IP=(\d{1,3}(?:\.\d{1,3}){3})(?![\d.])'
+regex_ip = r'IP=(\d{1,3}(?:\.\d{1,3}){3})'
 regex_fecha = r'\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}'
 regex_usuario = r'USER=(\w+)'
-regex_evento = r'EVENT=(LOGIN_OK|LOGIN_FAIL|ACCESS|LOGOUT|SU|EXIT)\b'
+regex_evento = r'EVENT=(LOGIN_OK|LOGIN_FAIL|ACCESS|LOGOUT|SU|EXIT)'
 #comprobar que la direccion IP tenga cuatro numeros separador ppr puntos y que cada uno este entre 0 y 255
 def validar_ip(ip):
     partes = ip.split(".")
@@ -260,6 +260,6 @@ grafo.mostrar_lista_adyacencia()
 # mostrar la actividad registrada por cada IP
 grafo.mostrar_actividad_ips()
 
-# realizar BFS desde cada IP encontrada
-for ip in eventos_por_ip:
-    grafo.mostrar_bfs(ip)
+# realizar BFS desde cada usuario
+for usuario in sorted({r["usuario"] for r in registros_validos}):
+    grafo.mostrar_bfs(usuario)
