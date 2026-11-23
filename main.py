@@ -3,10 +3,10 @@ from automata_pila import validar_sesiones
 from grafo import GrafoLogs
 import sys
 #Expresiones regulares
-regex_ip = r'IP=(\d{1,3}(?:\.\d{1,3}){3})'
+regex_ip = r'IP=(\d{1,3}(?:\.\d{1,3}){3})(?![\d.])'
 regex_fecha = r'\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}'
 regex_usuario = r'USER=(\w+)'
-regex_evento = r'EVENT=(LOGIN_OK|LOGIN_FAIL|ACCESS|LOGOUT|SU|EXIT)'
+regex_evento = r'EVENT=(LOGIN_OK|LOGIN_FAIL|ACCESS|LOGOUT|SU|EXIT)\b'
 #comprobar que la direccion IP tenga cuatro numeros separador ppr puntos y que cada uno este entre 0 y 255
 def validar_ip(ip):
     partes = ip.split(".")
